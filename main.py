@@ -15,7 +15,7 @@ game_type = input("Mode 1 or 2?: ")
 while not board.is_game_over():
     result = stockfish.play(board, chess.engine.Limit(time=0.1))
     board.push(result.move)
-    print(board.fen)
+    boardsvg = chess.svg.board(board=board)
     if game_type == 1:
         sf = stockfish.analyse(board, chess.engine.Limit(time=1))
         lc0 = leela.analyse(board, chess.engine.Limit(time=1))
