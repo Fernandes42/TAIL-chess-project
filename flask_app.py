@@ -12,7 +12,7 @@ def index():
 
 @app.route('/move/<int:depth>/<path:fen>/')
 def get_move(depth, fen):
-    sf_move = sf_calc(fen)
+    sf_move, next_move = sf_calc(fen)
     return sf_move
 
 
