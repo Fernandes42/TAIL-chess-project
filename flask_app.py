@@ -1,5 +1,7 @@
 from flask import Flask, render_template
+import chess
 from chess_engine import *
+from main import *
 
 app = Flask(__name__)
 
@@ -10,19 +12,11 @@ def index():
 
 @app.route('/move/<int:depth>/<path:fen>/')
 def get_move(depth, fen):
-    print(depth)
-    print("Calculating...")
-    engine = Engine(fen)
-    move = engine.iterative_deepening(depth - 1)
-    print("Move found!", move)
-    print()
-    return move
-
-
-@app.route('/test/<string:tester>')
-def test_get(tester):
-    return tester
+    sf_move = sf_calc(fen)
+    return sf_move
 
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+    
