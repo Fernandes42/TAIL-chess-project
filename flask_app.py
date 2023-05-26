@@ -1,7 +1,6 @@
 from flask import Flask, render_template
 import chess
-from chess_engine import *
-from main import *
+from analysis import *
 
 app = Flask(__name__)
 
