@@ -96,7 +96,7 @@ var getResponseMove = function() {
     var depth = e.options[e.selectedIndex].value;
     fen = game.fen()
     $.get($SCRIPT_ROOT + "/move/" + depth + "/" + fen, function(data) {
-        game.move(data, {sloppy: true});
+        game.move(data[0], {sloppy: true});
         updateStatus();
         // This is terrible and I should feel bad. Find some way to fix this properly.
         // The animations would stutter when moves were returned too quick, so I added a 100ms delay before the animation
