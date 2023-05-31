@@ -16,7 +16,7 @@ def sf_calc(fen):
     lc0 = leela.analyse(board, chess.engine.Limit(time=.1))
 
     if lc0["pv"][0] not in sf["pv"]:
-        next_move  = lc0["pv"][0]
+        next_move  = chess.Move.uci(lc0["pv"][0])
     else:
         next_move = None
 

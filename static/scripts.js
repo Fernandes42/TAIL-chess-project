@@ -96,6 +96,7 @@ var getResponseMove = function() {
     var depth = e.options[e.selectedIndex].value;
     fen = game.fen()
     $.get($SCRIPT_ROOT + "/move/" + depth + "/" + fen, function(data) {
+        data = JSON.parse(data)
         game.move(data[0], {sloppy: true});
         updateStatus();
         // This is terrible and I should feel bad. Find some way to fix this properly.

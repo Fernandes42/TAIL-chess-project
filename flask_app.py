@@ -1,5 +1,6 @@
 from flask import Flask, render_template, redirect, url_for,request
 
+import json
 import chess
 from analysis import *
 
@@ -18,11 +19,12 @@ def hello_world():
 
 @app.route('/move/<int:depth>/<path:fen>/')
 def get_move(depth, fen):
-    sf_move, next_move = sf_calc(fen)
+    sf_move, leela_next_move_for_player = sf_calc(fen)
 
-    print('next move', next_move)
+    print('next move', leela_next_move_for_player)
+    wrapped = [sf_move, leela_next_move_for_player]
 
-    return [sf_move,next_move]
+    return json.dumps(wrapped)
 
 
 if __name__ == '__main__':
