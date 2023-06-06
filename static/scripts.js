@@ -101,6 +101,12 @@ var getResponseMove = function() {
         console.log(data)
         game.move(data[0], {sloppy: true});
         if (data[1]) {
+          var delayInMilliseconds = 3000; //1 second
+
+          setTimeout(function() {
+            //your code to be executed after 1 second
+          }, delayInMilliseconds);
+          console.log(123)
           game.move(data[1], {sloppy: true});
         }
 
