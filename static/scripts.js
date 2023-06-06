@@ -28,6 +28,7 @@ var onDrop = function(source, target) {
 
   updateStatus();
   getResponseMove();
+
 };
 
 // update the board position after the piece snap
@@ -97,6 +98,7 @@ var getResponseMove = function() {
     fen = game.fen()
     $.get($SCRIPT_ROOT + "/move/" + depth + "/" + fen, function(data) {
         data = JSON.parse(data)
+        console.log(data)
         game.move(data[0], {sloppy: true});
         if (data[1]) {
           game.move(data[1], {sloppy: true});
@@ -190,6 +192,10 @@ var getCapturedPieces = function() {
             console.log(history[i]["captured"]);
         }
     }
+}
+
+var printer = function(value) {
+  console.log(value)
 }
 
 var getLastCapture = function() {

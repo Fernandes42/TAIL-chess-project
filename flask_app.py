@@ -26,7 +26,6 @@ def get_move(depth, fen):
 
     return json.dumps(wrapped)
 
-
 if __name__ == '__main__':
     app.run(debug=True)
 
