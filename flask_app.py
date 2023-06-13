@@ -1,20 +1,24 @@
 from flask import Flask, render_template, redirect, url_for,request,session
 from flask_session import Session
 import sqlite3
+from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.sql import text
+from analysis import *
+from models import *
+
 import json
 import chess
-from analysis import *
-
 
 app = Flask(__name__)
+
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
-connect = sqlite3.connect('database.db')
-connect.execute(
-    'CREATE TABLE IF NOT EXISTS PARTICIPANTS (name TEXT, \
-    games INTEGER)')
+db.init_app(app)
+
 
 @app.route('/tutor')
 def index():
@@ -30,6 +34,7 @@ def hello_world():
 
     return render_template("consent.html")
 
+
 @app.route('/move/<int:depth>/<path:fen>/')
 def get_move(depth, fen):
     print(session['count'],session['move'])
@@ -38,7 +43,6 @@ def get_move(depth, fen):
         check = True
     else:
         check = False
-    print(session.get('count'),check)
     sf_move, leela_next_move_for_player = sf_calc(fen, check)
     if leela_next_move_for_player:
         session['count'] =  session.get('count') + 1
