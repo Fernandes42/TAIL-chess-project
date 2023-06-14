@@ -15,7 +15,7 @@ class Player(db.Model):
     username = db.Column(db.String(80), unique=True, nullable=False)
     games = db.relationship('Game', backref='player', lazy=True)
     condition = db.Column(ChoiceType(CONDITIONS))
-    # TODO Number of games
+    number_of_games = db.Column(db.Integer, default=0)
 
 
     def __repr__(self):

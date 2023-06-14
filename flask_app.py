@@ -27,6 +27,8 @@ def index():
 @app.route("/", methods=["POST", "GET"])
 def hello_world():
     if request.method == "POST":
+        p = get_player()
+        print(p)
         session['count'] = 0
         session['move'] = 0
 
@@ -50,6 +52,33 @@ def get_move(depth, fen):
     wrapped = [sf_move, leela_next_move_for_player]
 
     return json.dumps(wrapped)
+
+
+def get_player():
+    if ('player_id' not in session or
+            Player.query.filter_by(id=session['player_id']).first() is None):
+        
+        username = str(hash(request.remote_addr)) # use the hash of IP address
+        
+        if Player.query.filter_by(username=username).count() > 0:
+            player = Player.query.filter_by(username=username).first() # get the player with a username if existed
+        else:
+            # query the numer of people in each condition
+            num_control = Player.query.filter_by(condition='control').count()
+            num_test = Player.query.filter_by(condition='test').count()
+
+            if num_test > num_control:
+                condition = 'control'
+            else:
+                condition = 'test'
+            player = Player(username=username, condition=condition)
+            db.session.add(player)
+            db.session.commit()
+        session['player_id'] = player.id
+    else:
+        player = Player.query.filter_by(id=session['player_id']).first()
+    return player
+
 
 if __name__ == '__main__':
     app.run(debug=True)
