@@ -8,16 +8,8 @@ db = SQLAlchemy()
 class Player(db.Model):
     CONDITIONS = [
         ('control', 'control'),
-        ('test', 'test'),
-        ('delayed', 'delayed')
+        ('test', 'test')
     ]
-
-    STAGES = [('consent', 'consent'),
-            ('instructions', 'instructions'), 
-            ('training', 'training'),
-            ('testing', 'testing'), 
-            ('survey', 'survey'),
-            ('done', 'done')]
 
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
