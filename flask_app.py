@@ -28,8 +28,11 @@ def index():
 def hello_world():
     if request.method == "POST":
         p = get_player()
-        print(p)
-        session['count'] = 0
+
+        if p.condition == 'control':
+            session['count'] = 5
+        else:
+            session['count'] = 0
         session['move'] = 0
 
         return render_template("index.html")
