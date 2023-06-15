@@ -28,12 +28,9 @@ class Game(db.Model):
     player_id = db.Column(db.Integer, db.ForeignKey('player.id'),
                           nullable=False)
     player_won = db.Column(db.Boolean, nullable=True)
-    length = db.Column(db.Integer)
+    length = db.Column(db.Integer, default=0)
     hints = db.Column(db.Integer, default=0)
     moves = db.relationship('Move', backref='game', lazy=True)
-
-    # do not need the opponent column until we have multiple opponents
-    # opponent = db.Column(db.String(80), nullable=True)
 
     def __repr__(self):
         return '<Game: {} (player: {}, player won: {})>'.format(
@@ -48,10 +45,6 @@ class Move(db.Model):
     raw_move = db.Column(db.Text, nullable=True)
     is_hint = db.Column(db.Boolean, nullable=True)
     uses_hint = db.Column(db.Boolean, nullable=True)
-
-
-    # Note sure we need this
-    # move_number = db.Column(db.int, nullable=False)
 
     def __repr__(self):
         white = False

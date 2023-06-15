@@ -82,6 +82,19 @@ def get_player():
         player = Player.query.filter_by(id=session['player_id']).first()
     return player
 
+def get_game(player):
+    if ('game_id' not in session or
+            Game.query.filter_by(id=session['game_id'],
+                                 player_won=None).first() is None):
+        game = Game(player=player)
+        
+        db.session.add(game)
+        db.session.commit()
+        session['game_id'] = game.id
+    else:
+        game = Game.query.filter_by(id=session['game_id'],
+                                    player_won=None).first()
+    return game
 
 if __name__ == '__main__':
     app.run(debug=True)
