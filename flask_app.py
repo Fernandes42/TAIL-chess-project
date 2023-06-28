@@ -41,10 +41,19 @@ def hello_world():
 
     return render_template("consent.html")
 
+def add_move(moves, cp):
+    p = get_player()
+    g = get_game(p)
+
+    player_move = Move(game=g,
+                       move_score=str(cp), raw_move=moves,
+                       is_hint=False, uses_hint=False)
+
+    db.session.add(player_move)
+    db.session.commit()
 
 @app.route('/move/<int:depth>/<path:fen>/<string:lastMove>')
 def get_move(depth, fen,lastMove):
-    print(lastMove)
     session['move'] =  session.get('move') + 1
     if session.get('count') <= depth and session.get('move') > 5:
         check = True
@@ -54,6 +63,9 @@ def get_move(depth, fen,lastMove):
     if leela_next_move_for_player:
         session['count'] =  session.get('count') + 1
     wrapped = [sf_move, leela_next_move_for_player]
+
+    move_seq = lastMove + "," + sf_move
+    add_move(move_seq,cp)
 
     return json.dumps(wrapped)
 
@@ -101,5 +113,3 @@ if __name__ == '__main__':
     app.run(debug=True)
 
     
-def get_move():
-    pass

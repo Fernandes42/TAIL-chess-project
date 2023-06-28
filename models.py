@@ -40,7 +40,7 @@ class Game(db.Model):
 class Move(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     game_id = db.Column(db.Integer, db.ForeignKey('game.id'), nullable=False)
-    player_move = db.Column(db.Boolean, nullable=False)
+    move_score = db.Column(db.Text, nullable=False)
     datetime = db.Column(db.DateTime, default=datetime.datetime.utcnow)
     raw_move = db.Column(db.Text, nullable=True)
     is_hint = db.Column(db.Boolean, nullable=True)
