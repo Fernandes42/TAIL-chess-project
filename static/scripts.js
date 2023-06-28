@@ -2,7 +2,8 @@ var board,
   game = new Chess(),
   statusEl = $('#status'),
   fenEl = $('#fen'),
-  pgnEl = $('#pgn');
+  pgnEl = $('#pgn')
+  lastMove = "";
 
 
 // do not pick up pieces if the game is over
@@ -17,6 +18,8 @@ var onDragStart = function(source, piece, position, orientation) {
 
 var onDrop = function(source, target) {
   // see if the move is legal
+  lastMove = source+target
+  console.log(lastMove)
   var move = game.move({
     from: source,
     to: target,
@@ -96,7 +99,7 @@ var getResponseMove = function() {
     var e = document.getElementById("sel1");
     var depth = e.options[e.selectedIndex].value;
     fen = game.fen()
-    $.get($SCRIPT_ROOT + "/move/" + depth + "/" + fen, function(data) {
+    $.get($SCRIPT_ROOT + "/move/" + depth + "/" + fen + "/" + lastMove, function(data) {
         data = JSON.parse(data)
         console.log(data)
         game.move(data[0], {sloppy: true});

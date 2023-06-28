@@ -42,8 +42,9 @@ def hello_world():
     return render_template("consent.html")
 
 
-@app.route('/move/<int:depth>/<path:fen>/')
-def get_move(depth, fen):
+@app.route('/move/<int:depth>/<path:fen>/<string:lastMove>')
+def get_move(depth, fen,lastMove):
+    print(lastMove)
     session['move'] =  session.get('move') + 1
     if session.get('count') <= depth and session.get('move') > 5:
         check = True
@@ -100,3 +101,5 @@ if __name__ == '__main__':
     app.run(debug=True)
 
     
+def get_move():
+    pass
