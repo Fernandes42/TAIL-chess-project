@@ -23,9 +23,7 @@ def sf_calc(fen, check):
         next_move  = chess.Move.uci(lc0["pv"][0])
     else:
         next_move = None
-
-    print("Score:", sf['score'])
-
+    cp = sf['score'].relative.cp
     stockfish.quit()
     leela.quit()
-    return chess.Move.uci(response['pv'][0]), next_move
+    return chess.Move.uci(response['pv'][0]), next_move, cp

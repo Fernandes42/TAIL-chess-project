@@ -44,25 +44,23 @@ def hello_world():
 
 @app.route('/move/<int:depth>/<path:fen>/')
 def get_move(depth, fen):
-    print(session['count'],session['move'])
     session['move'] =  session.get('move') + 1
     if session.get('count') <= depth and session.get('move') > 5:
         check = True
     else:
         check = False
-    sf_move, leela_next_move_for_player = sf_calc(fen, check)
+    sf_move, leela_next_move_for_player, cp = sf_calc(fen, check)
     if leela_next_move_for_player:
         session['count'] =  session.get('count') + 1
-    print('next move', leela_next_move_for_player)
     wrapped = [sf_move, leela_next_move_for_player]
 
     return json.dumps(wrapped)
 
 
 def get_player():
+    print("player")
     if ('player_id' not in session or
             Player.query.filter_by(id=session['player_id']).first() is None):
-        
         username = str(hash(request.remote_addr)) # use the hash of IP address
         
         if Player.query.filter_by(username=username).count() > 0:
