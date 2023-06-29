@@ -17,8 +17,6 @@ def sf_calc(fen, check):
     sf = stockfish.analyse(board, chess.engine.Limit(time=.1))
     lc0 = leela.analyse(board, chess.engine.Limit(time=.1))
 
-
-
     if (check and (lc0["pv"][0] not in sf["pv"][0:3])):
         next_move  = chess.Move.uci(lc0["pv"][0])
     else:

@@ -19,6 +19,8 @@ Session(app)
 
 db.init_app(app)
 
+last_move = [0,None]
+
 with app.app_context():
     db.create_all()
 
@@ -41,13 +43,13 @@ def hello_world():
 
     return render_template("consent.html")
 
-def add_move(moves, cp):
+def add_move(moves, cp, cpu, move_accepted):
     p = get_player()
     g = get_game(p)
 
     player_move = Move(game=g,
                        move_score=str(cp), raw_move=moves,
-                       is_hint=False, uses_hint=False)
+                       is_hint=cpu, uses_hint=move_accepted)
 
     db.session.add(player_move)
     db.session.commit()
@@ -62,16 +64,27 @@ def get_move(depth, fen,lastMove):
     sf_move, leela_next_move_for_player, cp = sf_calc(fen, check)
     if leela_next_move_for_player:
         session['count'] =  session.get('count') + 1
+        last_move[0] = session['move']
+        last_move[1] = leela_next_move_for_player
     wrapped = [sf_move, leela_next_move_for_player]
 
     move_seq = lastMove + "," + sf_move
-    add_move(move_seq,cp)
+
+    move_accepted = False
+
+
+    if session['move'] == last_move[0] + 1:
+        cpu = True
+        if last_move[1] == last_move:
+            move_accepted = True
+    else:
+        cpu = False
+    add_move(move_seq,cp, cpu, move_accepted)
 
     return json.dumps(wrapped)
 
 
 def get_player():
-    print("player")
     if ('player_id' not in session or
             Player.query.filter_by(id=session['player_id']).first() is None):
         username = str(hash(request.remote_addr)) # use the hash of IP address
