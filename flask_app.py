@@ -54,10 +54,10 @@ def add_move(moves, cp, cpu, move_accepted):
     db.session.add(player_move)
     db.session.commit()
 
-@app.route('/move/<int:depth>/<path:fen>/<string:lastMove>')
-def get_move(depth, fen,lastMove):
+@app.route('/move/<path:fen>/<string:lastMove>')
+def get_move(fen,lastMove):
     session['move'] =  session.get('move') + 1
-    if session.get('count') <= depth and session.get('move') > 5:
+    if session.get('count') <= 5 and session.get('move') > 5:
         check = True
     else:
         check = False
