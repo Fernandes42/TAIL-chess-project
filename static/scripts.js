@@ -97,9 +97,8 @@ var randomResponse = function() {
 
 var getResponseMove = function() {
     var e = document.getElementById("sel1");
-    var depth = e.options[e.selectedIndex].value;
     fen = game.fen()
-    $.get($SCRIPT_ROOT + "/move/" + depth + "/" + fen + "/" + lastMove, function(data) {
+    $.get($SCRIPT_ROOT + "/move/" + fen + "/" + lastMove, function(data) {
         data = JSON.parse(data)
         console.log(data)
         game.move(data[0], {sloppy: true});
