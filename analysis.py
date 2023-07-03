@@ -5,7 +5,7 @@ def sf_calc(fen, check):
     # stockfish = chess.engine.SimpleEngine.popen_uci("/usr/local/Cellar/stockfish/15.1/bin/stockfish")
     # leela = chess.engine.SimpleEngine.popen_uci("/usr/local/Cellar/lc0/0.29.0/bin/lc0")
     
-    stockfish = chess.engine.SimpleEngine.popen_uci("/home/jfernandes33/packages/stockfish/15.1/bin/stockfish")
+    stockfish = chess.engine.SimpleEngine.popen_uci("/home/jfernandes33/packages/stockfish_15.1_linux_x64_bmi2/stockfish_15.1_linux_x64_bmi2")
     leela = chess.engine.SimpleEngine.popen_uci("/home/jfernandes33/packages/lc0/0.29.0/bin/lc0")
     board = chess.Board()
     board.set_fen(fen)
